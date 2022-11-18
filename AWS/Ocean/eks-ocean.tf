@@ -183,7 +183,7 @@ module "ocean-aws-k8s-vng" {
 
   cluster_name  = var.cluster_name
   ocean_id      = module.ocean-aws-k8s.ocean_id
-  initial_nodes = 1
+  initial_nodes = 0
 
   name = "windows" # Name of VNG in Ocean
   image_id = "ami-0ede3e80cd29d317b" # Can change the AMI
@@ -193,4 +193,19 @@ module "ocean-aws-k8s-vng" {
   #taints = [{key="type",value="stateless",effect="NoSchedule"}]
 
   tags = { CreatedBy = "terraform" } #Addition Tags
+}
+
+###########################
+### Deploy Helm Charts ####
+###########################
+
+resource "helm_release" "prometheus" {
+  name       = "prometheus"
+
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+
+  depends_on = [
+    module.ocean-aws-k8s-vng_stateless
+  ]
 }
