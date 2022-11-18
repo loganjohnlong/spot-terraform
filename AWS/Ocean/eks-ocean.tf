@@ -131,6 +131,17 @@ module "ocean-aws-k8s" {
     Protected = "weekend"
   }
 
+  shutdown_hours = {
+    is_enabled = true
+    time_windows = [
+      "Fri:17:30-Mon:07:30", # Weekends
+      "Mon:17:30-Tue:07:30", # Weekday evenings
+      "Tue:17:30-Wed:07:30",
+      "Wed:17:30-Thu:07:30",
+      "Thu:17:30-Fri:07:30",
+    ]
+  }
+
   depends_on = [
     null_resource.patience
   ]
