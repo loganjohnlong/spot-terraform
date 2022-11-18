@@ -133,12 +133,12 @@ module "ocean-aws-k8s" {
 
   shutdown_hours = {
     is_enabled = true
-    time_windows = [
-      "Fri:17:30-Mon:07:30", # Weekends
-      "Mon:17:30-Tue:07:30", # Weekday evenings
-      "Tue:17:30-Wed:07:30",
-      "Wed:17:30-Thu:07:30",
-      "Thu:17:30-Fri:07:30",
+    time_windows = [ # Must be in GMT
+      "Fri:23:30-Mon:13:30", # Weekends
+      "Mon:23:30-Tue:13:30", # Weekday evenings
+      "Tue:23:30-Wed:13:30",
+      "Wed:23:30-Thu:13:30",
+      "Thu:23:30-Fri:13:30",
     ]
   }
 
