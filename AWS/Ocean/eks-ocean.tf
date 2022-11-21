@@ -1,3 +1,15 @@
+#################################
+### Locals ######################
+#################################
+
+locals {
+  tags = {
+    creator   = var.creator_email,
+    createdby = "terraform",
+    protected = "weekend"
+  }
+}
+
 #############################################
 ### Create EKS Cluster ######################
 #############################################
@@ -43,6 +55,8 @@ module "eks_blueprints" {
       groups   = ["system:bootstrappers", "system:nodes"]
     }
   ]
+
+  tags = local.tags
 }
 
 module "eks_blueprints_kubernetes_addons" {
@@ -125,11 +139,7 @@ module "ocean-aws-k8s" {
   security_groups             = [module.eks_blueprints.cluster_primary_security_group_id]
   min_size                    = 0
 
-  tags = {
-    Name      = "${var.cluster_name}-ocean-node",
-    CreatedBy = "Terraform",
-    Protected = "weekend"
-  }
+  tags = local.tags
 
   shutdown_hours = {
     is_enabled = true
@@ -186,7 +196,7 @@ module "ocean-aws-k8s-vng_stateless" {
   labels = [{ key = "type", value = "stateless" }]
   #taints = [{key="type",value="stateless",effect="NoSchedule"}]
 
-  tags = { CreatedBy = "terraform" } #Addition Tags
+  tags = local.tags
 }
 
 module "ocean-aws-k8s-vng" {
@@ -203,7 +213,7 @@ module "ocean-aws-k8s-vng" {
   labels = [{ key = "type", value = "windows" }]
   #taints = [{key="type",value="stateless",effect="NoSchedule"}]
 
-  tags = { CreatedBy = "terraform" } #Addition Tags
+  tags = local.tags
 }
 
 ###########################

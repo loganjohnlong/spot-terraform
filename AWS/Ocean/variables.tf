@@ -32,3 +32,8 @@ variable "private_subnets" {
   description = "AWS private subnet IDs"
   type        = list
 }
+
+variable "creator_email" {
+  description = "Creator's email"
+  type        = string
+}
